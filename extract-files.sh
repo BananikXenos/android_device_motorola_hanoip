@@ -80,6 +80,10 @@ function blob_fixup() {
     vendor/lib64/libril-qc-hal-qmi.so)
         sed -i 's/ro.mot.build.customerid/vendor.build.customerid/g' "${2}"
         ;;
+    vendor/lib64/libwvhidl.so)
+        [ "$2" = "" ] && return 0
+        grep -q libcrypto_shim.so "${2}" || "${PATCHELF}" --add-needed "libcrypto_shim.so" "${2}"
+        ;;
     esac
 }
 
